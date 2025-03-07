@@ -3,8 +3,8 @@ import glob
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from pypdf import PdfReader
-from gtts import gTTS
 from langdetect import detect
+from TTS.api import TTS
 
 logging.getLogger("pypdf").setLevel(logging.ERROR)
 
@@ -23,8 +23,8 @@ def convert_text_to_mp3(text, lang, output_path):
         return
 
     try:
-        tts = gTTS(text, lang=lang)
-        tts.save(output_path)
+        tts = TTS(model_name="tts_models/multilingual/multi-dataset/xtts_v2")
+        tts.tts_to_file(text=text, file_path=output_path)
         print(f"Saved: {output_path}")
     except Exception as e:
         print(f"Error converting {output_path}: {e}")
